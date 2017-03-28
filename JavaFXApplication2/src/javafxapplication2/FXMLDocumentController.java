@@ -6,6 +6,8 @@
 package javafxapplication2;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -26,7 +28,7 @@ public class FXMLDocumentController implements Initializable {
     private Window stage;
     
     @FXML
-    private void handleButtonAction(ActionEvent event) {
+    private void handleButtonAction(ActionEvent event) throws IOException {
        
         System.out.println(event.getSource().toString());//.contains("loadButton"));
         if (event.getSource().toString().contains("loadButton")){
@@ -40,11 +42,15 @@ public class FXMLDocumentController implements Initializable {
     //    label.setText("Hello World!");
     }
     
-    private void loadData(){
+    private void loadData() throws FileNotFoundException, IOException{
         System.out.println("load data method");
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(stage);
+        String dataPath = file.getPath();
         
+        //parser.parse(file);
+        parser.parse(dataPath);
+
         if (file.isFile()){
             System.out.println(file.getName());
             //System.out.println(file.lastModified());

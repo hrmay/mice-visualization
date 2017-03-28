@@ -36,10 +36,13 @@
                 </MenuBar>
                 <ToolBar prefHeight="27.0" prefWidth="585.0">
                     <items>
-                        <Button mnemonicParsing="false" text="Load" fx:id="loadButton" onAction="#handleButtonAction"/>
+                        <Button fx:id="loadButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Load" />
                         <Button mnemonicParsing="false" text="Save" />
-                        <Button mnemonicParsing="false" text="Generate Map" fx:id="generateButton" onAction="#handleButtonAction"/>
                         <Button mnemonicParsing="false" text="Save Map" />
+                  <TextField text="Start Time" />
+                  <Label text="-" />
+                  <TextField text="End Time" />
+                        <Button fx:id="generateButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Generate Map" />
                     </items>
                 </ToolBar>
                 <SplitPane dividerPositions="0.25">
