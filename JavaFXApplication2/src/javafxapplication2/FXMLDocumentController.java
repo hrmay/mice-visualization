@@ -25,6 +25,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private Button loadButton;
+    private Button saveButton;
     private Window stage;
     
     @FXML
@@ -34,12 +35,24 @@ public class FXMLDocumentController implements Initializable {
         if (event.getSource().toString().contains("loadButton")){
             System.out.println("You are about to load some data BOI!");
             loadData();
+        
+        }else if(event.getSource().toString().contains("saveButton")){
+            System.out.println("Saving Stuff");
+            save();
         }else if(event.getSource().toString().contains("generateButton")){
             System.out.println("Generating Map!!!!");
+            
         }else{
             System.out.println("....");
+        
         }
     //    label.setText("Hello World!");
+    }
+    
+    private void save(){
+        System.out.println("This is where the pop up is suppose to go");
+        
+    
     }
     
     private void loadData() throws FileNotFoundException, IOException{
@@ -49,8 +62,9 @@ public class FXMLDocumentController implements Initializable {
         String dataPath = file.getPath();
         
         //parser.parse(file);
-        parser.parse(dataPath);
+        String[][] dataArray = parser.parse(dataPath);
 
+        System.out.println(dataArray[0][1]);
         if (file.isFile()){
             System.out.println(file.getName());
             //System.out.println(file.lastModified());
