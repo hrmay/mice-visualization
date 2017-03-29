@@ -15,8 +15,8 @@ for line in file:
     temp = re.sub(r"\s", "", line)
     #ensure the line isn't an empty string
     if len(temp)>1:
-        #ignore all the #ID-Device lines
-        if temp[1] != "#":
+        #ignore all the #ID-Device lines and blank lines
+        if temp[1] != "#" and temp[1] != ';':
             #split the line on semicolons
             values = temp.split(';')
             #add the parsed line to the array
