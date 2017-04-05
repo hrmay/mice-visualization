@@ -25,5 +25,8 @@ for line in file:
 
 #convert times to Unix time
 for entry in data:
-        tempFloat = float(re.sub(r"[^0-9\.]", "", entry[0]))
-        entry[0] = int(round((tempFloat * 86400) - 2209161600))
+    for i in range(0,len(entry)):
+        entry[i] = re.sub(r"[^a-zA-Z0-9\.]", "", entry[i])
+        
+    tempFloat = float(re.sub(r"[^0-9\.]", "", entry[0]))
+    entry[0] = int(round((tempFloat * 86400) - 2209161600))
