@@ -12,9 +12,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Button;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 
 /**
@@ -25,34 +30,66 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private Button loadButton;
-    private Button saveButton;
-    private Window stage;
     
     @FXML
+    private Button saveButton;
+    @FXML
+    private Button save;
+    @FXML
+    private Button cancelSave;
+            
+    @FXML
+    private Window stage;
+        
+    @FXML
     private void handleButtonAction(ActionEvent event) throws IOException {
-       
+           
         System.out.println(event.getSource().toString());//.contains("loadButton"));
-        if (event.getSource().toString().contains("loadButton")){
+        if(event.getSource()==loadButton){
             System.out.println("You are about to load some data BOI!");
             loadData();
         
-        }else if(event.getSource().toString().contains("saveButton")){
+        }
+        else if(event.getSource()==saveButton){
+            
             System.out.println("Saving Stuff");
-            save();
-        }else if(event.getSource().toString().contains("generateButton")){
+            saveWindowPopUp(event);
+        }
+        else if(event.getSource().toString().contains("generateButton")){
             System.out.println("Generating Map!!!!");
             
-        }else{
+        }
+        else{
             System.out.println("....");
         
         }
     //    label.setText("Hello World!");
     }
     
-    private void save(){
+    @FXML
+    private void saveWindowPopUp(ActionEvent event) throws IOException{
         System.out.println("This is where the pop up is suppose to go");
         
-    
+        Stage testStage;
+        Parent root;
+        
+        if(event.getSource()==saveButton){
+            testStage=new Stage();
+            //stage=(Stage) btn1.getScene().getWindow();
+            root =FXMLLoader.load(getClass().getResource("SaveWindow.fxml"));
+            testStage.setScene(new Scene(root));
+            testStage.initModality(Modality.APPLICATION_MODAL);
+            testStage.initOwner(saveButton.getScene().getWindow());
+            testStage.showAndWait();
+        }
+        else if(event.getSource()==save){
+            testStage=(Stage) save.getScene().getWindow();
+            testStage.close();
+        }
+        else{
+            testStage=(Stage) cancelSave.getScene().getWindow();
+            testStage.close();
+        }
     }
     
     private void loadData() throws FileNotFoundException, IOException{
