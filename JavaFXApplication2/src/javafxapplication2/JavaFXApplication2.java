@@ -26,8 +26,10 @@ public class JavaFXApplication2 extends Application {
         /* Creates a new instance of the Scene from root */
         Scene scene = new Scene(root);
         
-        /* */
+        /* Sets the stage to the scene */
         stage.setScene(scene);
+        
+        /* Displays the stage to the user */
         stage.show();
     }
 
