@@ -23,10 +23,14 @@ for line in file:
             data.append(values)
 
 
-#convert times to Unix time
 for entry in data:
     for i in range(0,len(entry)):
         entry[i] = re.sub(r"[^a-zA-Z0-9\.]", "", entry[i])
-        
-    tempFloat = float(re.sub(r"[^0-9\.]", "", entry[0]))
-    entry[0] = int(round((tempFloat * 86400) - 2209161600))
+    
+    if (entry[3] == 'RFID25'):
+        print("removing: ")
+        print(entry)
+        data.remove(entry)
+    else:
+        tempFloat = float(re.sub(r"[^0-9\.]", "", entry[0]))
+        entry[0] = int(round((tempFloat * 86400) - 2209161600))
