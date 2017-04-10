@@ -34,3 +34,5 @@ for entry in data:
     else:
         tempFloat = float(re.sub(r"[^0-9\.]", "", entry[0]))
         entry[0] = int(round((tempFloat * 86400) - 2209161600))
+
+    tempFloat = float(re.sub(r"[^0-9\.]", "", entry[0]))
