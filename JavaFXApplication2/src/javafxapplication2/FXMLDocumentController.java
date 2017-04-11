@@ -20,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,9 +35,13 @@ public class FXMLDocumentController implements Initializable {
     /* Load button on main app window */
     @FXML
     private Button loadButton;
+    @FXML
     private File currentFile;
+    @FXML
+    private String currentFileName;
     
-    /* Buttons that are involved with saving */
+    
+    /* Buttons that are involved wsith saving */
     @FXML
     private Button saveButton; /* Save button on the main app window */
     @FXML
@@ -44,7 +49,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button cancelSave; /* Cancel button on the SavePopUP Window */
     @FXML
-    private TextField saveNameField; /* */
+    private TextField saveNameField; /*  */
+    @FXML
+    private Label saveFileName; /*  */
     
     /* Stage for the File Explorer window when loading a new file */
     @FXML
@@ -65,7 +72,14 @@ public class FXMLDocumentController implements Initializable {
         /* If the "Save" button on the main window was pressed */
         else if(event.getSource()==saveButton){
             //System.out.println("Saving Stuff");
-            saveWindowPopUp(event); /* Method handles save */
+            
+            if(currentFile != null){
+                //System.out.println(currentFile.getName());
+             
+                saveWindowPopUp(event); /* Method handles save */    
+            }else{
+                System.out.println("No File to save");
+            }
         }
         /*
         else if(event.getSource()==generateButton){
@@ -110,37 +124,49 @@ public class FXMLDocumentController implements Initializable {
             
             /* Shows the pop up to the user and waits until they have closed
                 it out */
-            saveStage.showAndWait();
+            saveStage.show();
+            
+            //saveNameField = new TextField();
+            //saveNameField.setText(currentFile.getName());
+                //System.out.println("Check me out");
+            
         }
         
         /* If the "Save" button was pressed in the SavePopUp */
         else if(event.getSource()==save){
+            System.out.println("Saving " + saveNameField.getText());
             
             /* Set the save stage to the pop up */
             saveStage=(Stage) save.getScene().getWindow();
             
-            /**/
-            /*try{
-                try (BufferedWriter writer = new BufferedWriter (new FileWriter(".\\savedData.txt"))) {
-                    String filePath = currentFile.getPath();
-                    String fileName = currentFile.getName();
+                String filePath = currentFile.getPath();
+               
+                //System.out.println(filePath);
+                String fileName = saveNameField.getText();
+                //System.out.println(fileName);
                     
-                    saveNameField.setText(fileName);
-                    
-                    String toWrite = fileName + "; " + filePath;
-                    writer.write(toWrite);
-                }
+                String toWrite = fileName + "; " + filePath;
                 
-            }catch(IOException e){
+            /**/
+            try {
+                
+                BufferedWriter writer = new BufferedWriter (new FileWriter(".\\savedData.txt"));
+                //String toWrite = "howdy there partner";
+                writer.write(toWrite);
+                writer.close();
+                
+            } catch(IOException e){
             
             }
-                      */  
+                        
             /* Close the pop up */
             saveStage.close();
         }
         
         /* If the "Cancel" button was pressed in the SavePopUp */
         else{
+            
+            System.out.println("Closing save window");
             
             /* Set the save stage to the pop up */
             saveStage=(Stage) cancelSave.getScene().getWindow();
@@ -161,6 +187,9 @@ public class FXMLDocumentController implements Initializable {
        
         /* stores the file into current file */
         currentFile = file;
+        //currentFileName = currentFile.getName();
+        System.out.println(currentFile.getName());
+        System.out.println(currentFile.getPath());
         
         /* Gets the file path of the file */
         String dataPath = file.getPath();
