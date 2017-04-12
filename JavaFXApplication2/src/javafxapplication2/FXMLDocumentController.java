@@ -63,42 +63,29 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Window stage;
     
-    
+    /* Sets the currentFile from the Main window controller to the currentFile 
+        in the SaveWindow controller */
     public void setFile(File currentFile){
         this.currentFile = currentFile;
     }
-    //public void setSaveFileLabel(TextField saveNameField){
-     //   this.saveNameField = saveNameField;
-        //saveFileName.setText("Hello");
-    //}
     
     /* Handles the functionality of buttons on the main app window */
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException {
-        
-        //System.out.println(event.getSource().toString());
        
         /* If the "Load" button on the main window was pressed */
         if(event.getSource()==loadButton){
-            //System.out.println("You are about to load some data BOI!");
             loadData(); /* Method handles load */
         }
         
         /* If the "Save" button on the main window was pressed */
         else if(event.getSource()==saveButton){
-            //System.out.println("Saving Stuff");
-            
+           
+            /* Checks if there is file loaded in */
             if(currentFile != null){
-                //System.out.println(currentFile.getName());
-             
-                //saveWindowPopUp(event); /* Method handles save */ 
-                        
-              
-                //System.out.println("ASDF " + currentFile.getPath());
             
                 /* Create a new stage for the SavePopUp */
                 saveStage=new Stage();
-                
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SaveWindow.fxml"));
                 
                 /* Get the design for the SavePopUp from the SaveWindow.fxml file
@@ -110,10 +97,11 @@ public class FXMLDocumentController implements Initializable {
 
                 FXMLDocumentController controller = fxmlLoader.getController(); 
                 
+                /* Passes currentFile from one controller to the other */
                 controller.setFile(currentFile);
+                
+                /* Sets the label to the name of the file*/
                 controller.saveFileName.setText(currentFile.getName());
-                //controller.setSaveFileLabel(saveNameField);
-              // saveNameField.setText(currentFile.getName());
                 
                 /* initializes pop up functionality */
                 saveStage.initModality(Modality.APPLICATION_MODAL);
@@ -124,11 +112,6 @@ public class FXMLDocumentController implements Initializable {
                 /* Shows the pop up to the user and waits until they have closed
                     it out */
                 saveStage.showAndWait();
-
-                //saveNameField = new TextField();
-                //saveNameField.setText(currentFile.getName());
-                    //System.out.println("Check me out");
-
         
             }else{
                 System.out.println("No File to save");
@@ -158,13 +141,9 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Saving " + saveNameField.getText());
                 
                 String filePath = currentFile.getPath();
-               
-        //        System.out.println(filePath);
+              
                 String fileName = saveNameField.getText();
-                //System.out.println(fileName);
-                    
-                //String toWrite = fileName + "; " + filePath;
-                //System.out.println(fileName + "; " + filePath);    
+
             /**/
             try {
                 
@@ -175,7 +154,8 @@ public class FXMLDocumentController implements Initializable {
                 
             } catch(IOException e){
             
-            }              
+            } 
+            
             /* Set the save stage to the pop up */
             saveStage=(Stage) save.getScene().getWindow();            
             /* Close the pop up */
