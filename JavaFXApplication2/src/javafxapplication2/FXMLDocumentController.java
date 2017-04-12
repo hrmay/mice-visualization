@@ -67,6 +67,10 @@ public class FXMLDocumentController implements Initializable {
     public void setFile(File currentFile){
         this.currentFile = currentFile;
     }
+    //public void setSaveFileLabel(TextField saveNameField){
+     //   this.saveNameField = saveNameField;
+        //saveFileName.setText("Hello");
+    //}
     
     /* Handles the functionality of buttons on the main app window */
     @FXML
@@ -107,13 +111,16 @@ public class FXMLDocumentController implements Initializable {
                 FXMLDocumentController controller = fxmlLoader.getController(); 
                 
                 controller.setFile(currentFile);
+                controller.saveFileName.setText(currentFile.getName());
+                //controller.setSaveFileLabel(saveNameField);
+              // saveNameField.setText(currentFile.getName());
                 
                 /* initializes pop up functionality */
                 saveStage.initModality(Modality.APPLICATION_MODAL);
 
                 /* sets the owner of the stage to the main window save button */
                 saveStage.initOwner(saveButton.getScene().getWindow());
-
+                
                 /* Shows the pop up to the user and waits until they have closed
                     it out */
                 saveStage.showAndWait();
@@ -161,10 +168,10 @@ public class FXMLDocumentController implements Initializable {
             /**/
             try {
                 
-                BufferedWriter writer = new BufferedWriter (new FileWriter(".\\savedData.txt"));
-                String toWrite = "Mic check 1 2 1 2";
-                writer.write(toWrite);
-                writer.close();
+                try (BufferedWriter writer = new BufferedWriter (new FileWriter(".\\savedData.txt",true))) {
+                    String toWrite = fileName + "; " + filePath + "\n";
+                    writer.write(toWrite);
+                }
                 
             } catch(IOException e){
             

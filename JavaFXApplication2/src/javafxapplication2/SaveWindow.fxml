@@ -13,6 +13,6 @@
       <Label layoutX="51.0" layoutY="67.0" text="Save File As: " />
       <TextField fx:id="saveNameField" layoutX="119.0" layoutY="63.0" onAction="#saveWindowPopUp" prefHeight="25.0" prefWidth="241.0" />
       <Label layoutX="94.0" layoutY="34.0" text="File:" />
-      <Label fx:id="saveFileName" layoutX="126.0" layoutY="34.0" text="currentFileName" />
+      <Label fx:id="saveFileName" layoutX="126.0" layoutY="34.0" text="" />
    </children>
 </AnchorPane>
