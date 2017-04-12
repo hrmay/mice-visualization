@@ -35,7 +35,7 @@ public class FXMLDocumentController implements Initializable {
     /* Load button on main app window */
     @FXML
     private Button loadButton;
-    @FXML
+    
     private File currentFile;
     @FXML
     private String currentFileName;
@@ -53,10 +53,21 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Label saveFileName; /*  */
     
+      /* The SavePopUp window */
+                Stage saveStage;
+                /* design for the stage */
+                Parent root;
+
+    
     /* Stage for the File Explorer window when loading a new file */
     @FXML
     private Window stage;
-        
+    
+    
+    public void setFile(File currentFile){
+        this.currentFile = currentFile;
+    }
+    
     /* Handles the functionality of buttons on the main app window */
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException {
@@ -76,7 +87,42 @@ public class FXMLDocumentController implements Initializable {
             if(currentFile != null){
                 //System.out.println(currentFile.getName());
              
-                saveWindowPopUp(event); /* Method handles save */    
+                //saveWindowPopUp(event); /* Method handles save */ 
+                        
+              
+                //System.out.println("ASDF " + currentFile.getPath());
+            
+                /* Create a new stage for the SavePopUp */
+                saveStage=new Stage();
+                
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SaveWindow.fxml"));
+                
+                /* Get the design for the SavePopUp from the SaveWindow.fxml file
+                    and set it to root */
+                root =(Parent) fxmlLoader.load();
+                
+                /* set the pop up scene to the design from root */
+                saveStage.setScene(new Scene(root));
+
+                FXMLDocumentController controller = fxmlLoader.getController(); 
+                
+                controller.setFile(currentFile);
+                
+                /* initializes pop up functionality */
+                saveStage.initModality(Modality.APPLICATION_MODAL);
+
+                /* sets the owner of the stage to the main window save button */
+                saveStage.initOwner(saveButton.getScene().getWindow());
+
+                /* Shows the pop up to the user and waits until they have closed
+                    it out */
+                saveStage.showAndWait();
+
+                //saveNameField = new TextField();
+                //saveNameField.setText(currentFile.getName());
+                    //System.out.println("Check me out");
+
+        
             }else{
                 System.out.println("No File to save");
             }
@@ -97,68 +143,34 @@ public class FXMLDocumentController implements Initializable {
         window */
     @FXML
     private void saveWindowPopUp(ActionEvent event) throws IOException{
-        
-        /* The SavePopUp window */
-        Stage saveStage;
-        /* design for the stage */
-        Parent root;
-        
-        /* If the "Save" button was pressed on the main window */
-        if(event.getSource()==saveButton){
-            
-            /* Create a new stage for the SavePopUp */
-            saveStage=new Stage();
-            
-            /* Get the design for the SavePopUp from the SaveWindow.fxml file
-                and set it to root */
-            root =FXMLLoader.load(getClass().getResource("SaveWindow.fxml"));
-            
-            /* set the pop up scene to the design from root */
-            saveStage.setScene(new Scene(root));
-            
-            /* initializes pop up functionality */
-            saveStage.initModality(Modality.APPLICATION_MODAL);
-            
-            /* sets the owner of the stage to the main window save button */
-            saveStage.initOwner(saveButton.getScene().getWindow());
-            
-            /* Shows the pop up to the user and waits until they have closed
-                it out */
-            saveStage.show();
-            
-            //saveNameField = new TextField();
-            //saveNameField.setText(currentFile.getName());
-                //System.out.println("Check me out");
-            
-        }
+
         
         /* If the "Save" button was pressed in the SavePopUp */
-        else if(event.getSource()==save){
+        if(event.getSource()==save){
+            
             System.out.println("Saving " + saveNameField.getText());
-            
-            /* Set the save stage to the pop up */
-            saveStage=(Stage) save.getScene().getWindow();
-            
+                
                 String filePath = currentFile.getPath();
                
-                //System.out.println(filePath);
+        //        System.out.println(filePath);
                 String fileName = saveNameField.getText();
                 //System.out.println(fileName);
                     
-                String toWrite = fileName + "; " + filePath;
-                
+                //String toWrite = fileName + "; " + filePath;
+                //System.out.println(fileName + "; " + filePath);    
             /**/
             try {
                 
                 BufferedWriter writer = new BufferedWriter (new FileWriter(".\\savedData.txt"));
-                //String toWrite = "howdy there partner";
+                String toWrite = "Mic check 1 2 1 2";
                 writer.write(toWrite);
                 writer.close();
                 
             } catch(IOException e){
             
-            }
-                        
+            }              
+            /* Set the save stage to the pop up */
+            saveStage=(Stage) save.getScene().getWindow();            
             /* Close the pop up */
             saveStage.close();
         }
@@ -192,14 +204,14 @@ public class FXMLDocumentController implements Initializable {
         System.out.println(currentFile.getPath());
         
         /* Gets the file path of the file */
-        String dataPath = file.getPath();
+        //String dataPath = file.getPath();
         
         //parser.parse(file);
         
         /* Gives the file path to the parser
             Parses the data
             Stores the parsed data into a array of strings */
-        String[][] dataArray = parser.parse(dataPath);
+        //String[][] dataArray = parser.parse(dataPath);
 
         //System.out.println(dataArray[0][1]);
         //if (file.isFile()){
