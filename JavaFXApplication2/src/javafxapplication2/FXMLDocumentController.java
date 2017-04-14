@@ -5,23 +5,37 @@
  */
 package javafxapplication2;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -40,6 +54,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private String currentFileName;
     
+    @FXML
+    private Button loadPrevButton;
+    
+    Stage loadPrevStage;
     
     /* Buttons that are involved wsith saving */
     @FXML
@@ -75,7 +93,7 @@ public class FXMLDocumentController implements Initializable {
        
         /* If the "Load" button on the main window was pressed */
         if(event.getSource()==loadButton){
-            loadData(); /* Method handles load */
+            loadDataPopUp(); /* Method handles load */
         }
         
         /* If the "Save" button on the main window was pressed */
@@ -115,6 +133,94 @@ public class FXMLDocumentController implements Initializable {
         
             }else{
                 System.out.println("No File to save");
+            }
+        }
+        
+        /* If the "Load Previous" button on the main window was pressed */
+        else if(event.getSource()==loadPrevButton){
+            
+            File file = new File(".//savedData.txt");
+            if(file.exists()){
+                
+             
+                /* Create a new stage for the SavePopUp */
+                loadPrevStage=new Stage();
+                GridPane grid = new GridPane();
+                grid.setAlignment(Pos.TOP_CENTER);
+                grid.setHgap(10);
+                grid.setVgap(10);
+                grid.setPadding(new Insets(25, 25, 25, 25));
+
+                Scene scene = new Scene(grid, 300, 575);
+                loadPrevStage.setScene(scene);
+                
+                Text scenetitle = new Text("Load Previous:");
+                scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+                grid.add(scenetitle, 0, 0, 1, 1);
+             
+                int x = 1;
+                final ToggleGroup group = new ToggleGroup();
+                
+                try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+                    
+                    for(String line; (line = br.readLine()) != null; ) {
+                        //System.out.println(line.indexOf(";"));
+                        RadioButton lbl = new RadioButton(line.substring(0,line.indexOf(";")));
+                        lbl.setToggleGroup(group);
+                        lbl.setUserData(line.substring(0,line.indexOf(";")));
+                        grid.add(lbl, 0, x);
+                        x++;
+                    }
+                    
+                    
+                    // line is not visible here.
+                }
+                
+                /*
+                int x = 1;
+                for(int y = 0; y < 2; y++){
+                    Label userName = new Label(""+y);
+                    grid.add(userName, 0, x);
+                    x++;
+                }*/
+
+                Button btn = new Button("Load");
+                Button cBtn = new Button("Cancel");                
+                //HBox hbBtn = new HBox(10);
+                //hbBtn.setAlignment(Pos.BOTTOM_CENTER);
+                //hbBtn.getChildren().add(btn);
+                grid.add(btn, 0, x);
+                grid.add(cBtn, 1, x);
+
+               
+                btn.setOnAction((ActionEvent e) -> {
+                    System.out.println(group.getSelectedToggle().getUserData());
+                 
+                    //try(BufferedReader br2 = new BufferedReader(new FileReader(file))) {
+                    
+                    //    for(String line; (line = br2.readLine()) != null; ) {
+                        //System.out.println(line.indexOf(";"));
+                        
+                  //      }
+                    
+                    
+                    // line is not visible here.
+               // }   
+                    loadPrevStage.close();
+                });
+                   
+                cBtn.setOnAction((ActionEvent e) -> {
+                    System.out.println("Cancelling load previous.");
+                    loadPrevStage.close();
+                });
+                    
+                
+                //final Text actiontarget = new Text();
+                //grid.add(actiontarget, 1, 6);
+                
+                /* Shows the pop up to the user and waits until they have closed
+                    it out */
+                loadPrevStage.showAndWait();
             }
         }
         /*
@@ -176,7 +282,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /* Opens the file explorer allowing the user to load their dataset */
-    private void loadData() throws FileNotFoundException, IOException{
+    private void loadDataPopUp() throws FileNotFoundException, IOException{
         //System.out.println("load data method");
         /* Creates a new file chooser object */
         FileChooser fileChooser = new FileChooser();
@@ -184,6 +290,10 @@ public class FXMLDocumentController implements Initializable {
         /* Sets the file chosen in the file chooser to "file" */
         File file = fileChooser.showOpenDialog(stage);
        
+        loadData(file);
+    }
+    
+    private void loadData(File file){   
         /* stores the file into current file */
         currentFile = file;
         //currentFileName = currentFile.getName();
@@ -191,14 +301,14 @@ public class FXMLDocumentController implements Initializable {
         System.out.println(currentFile.getPath());
         
         /* Gets the file path of the file */
-        //String dataPath = file.getPath();
+        String dataPath = file.getPath();
         
-        //parser.parse(file);
+      //  parser.parse(dataPath);
         
         /* Gives the file path to the parser
             Parses the data
             Stores the parsed data into a array of strings */
-        //String[][] dataArray = parser.parse(dataPath);
+     //   String[][] dataArray = parser.parse(dataPath);
 
         //System.out.println(dataArray[0][1]);
         //if (file.isFile()){
@@ -208,9 +318,7 @@ public class FXMLDocumentController implements Initializable {
         //    System.out.println("No file kiddo.");
         //}
         //check to see if a file was loaded properly
-        
-        
-    }
+}
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
