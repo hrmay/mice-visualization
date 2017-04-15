@@ -22,6 +22,8 @@ public class JavaFXApplication2 extends Application {
         
         /* Gets the UI design from FXMLDocument.fxml */
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+
+        stage.setTitle("Mapping Out Unique Situations & Engagements");    
         
         /* Creates a new instance of the Scene from root */
         Scene scene = new Scene(root);
