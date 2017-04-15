@@ -26,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -60,6 +61,8 @@ public class FXMLDocumentController implements Initializable {
     
     Stage loadPrevStage;
     
+    Stage miceStage;
+    
     /* Buttons that are involved wsith saving */
     @FXML
     private Button saveButton; /* Save button on the main app window */
@@ -77,6 +80,10 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private Button saveMapButton;
+    
+    private String[] mice = null;
+            
+    private String[] selectedMice = null;
     
     /* The SavePopUp window */
     Stage saveStage;
@@ -234,7 +241,100 @@ public class FXMLDocumentController implements Initializable {
         }
         
         else if(event.getSource()==selectMiceButton){
-            System.out.println("Select Mice");
+            
+            if(mice == null){
+                System.out.println("Load a File First.");
+            }else{
+                //System.out.println(mice[0]);
+                System.out.println("Select Mice");
+                
+                /* Create a new stage for the SavePopUp */
+                miceStage=new Stage();
+                GridPane grid = new GridPane();
+                grid.setAlignment(Pos.TOP_CENTER);
+                grid.setHgap(10);
+                grid.setVgap(10);
+                grid.setPadding(new Insets(25, 25, 25, 25));
+
+                Scene scene = new Scene(grid, 300, 575);
+                miceStage.setScene(scene);
+                
+                Text scenetitle = new Text("Select Mice:");
+                scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+                grid.add(scenetitle, 0, 0, 1, 1);
+             
+                int x = 1;
+                final ToggleGroup group = new ToggleGroup();
+                //ActionListener al = new checkbox_handler();
+                
+                CheckBox[] cBoxes = new CheckBox[mice.length];
+                
+                if(selectedMice == null){
+                    
+                    for(int y = 0; y < mice.length; y++){
+                        CheckBox cb = new CheckBox(mice[y]);
+                        cBoxes[y] = cb;
+                        cb.setUserData(mice[y]);
+                        grid.add(cb,0,x);
+                        x++;
+                    }
+                
+                }else{
+                    for(int y = 0; y < mice.length; y++){
+                        CheckBox cb = new CheckBox(mice[y]);
+                        cBoxes[y] = cb;
+                        cb.setUserData(mice[y]);
+                        grid.add(cb,0,x);
+                        x++;
+                        for(int i = 0; i < selectedMice.length; i++){
+                            if(mice[y].equals(selectedMice[i])){
+                                cb.setSelected(true);
+                            }
+                        }
+                    }
+                    
+                }
+                
+                Button btn = new Button("Update");
+                Button cBtn = new Button("Cancel");                
+                grid.add(btn, 0, x);
+                grid.add(cBtn, 1, x);
+               
+                btn.setOnAction((ActionEvent e) -> {
+                    //System.out.println("!");
+                    String[] tempSelected = new String[cBoxes.length];
+                    int z = 0;
+                    for(int y = 0; y < cBoxes.length; y++){
+                        if(cBoxes[y].isSelected()){
+                            //if(selectedMice == null){
+                                tempSelected[z] = cBoxes[y].getText();
+                                z++;
+                                //System.out.println("AH");
+                            //}else{
+                            //    selectedMice[selectedMice.length] = cBoxes[y].getText();
+                            //}
+             //               System.out.println(cBoxes[y].getText());
+                        }
+                        
+                    }
+                    
+                    selectedMice = tempSelected;
+                    
+                    for(int y = 0; y< selectedMice.length; y++){
+                        System.out.println(selectedMice[y]);
+                    }
+                    
+                    miceStage.close();
+                });
+                
+                cBtn.setOnAction((ActionEvent e) -> {
+                    System.out.println("Cancelling Select Mice");
+                    miceStage.close();
+                });
+                
+                miceStage.showAndWait();
+        
+            }
         }
         
         else if(event.getSource()==generateButton){
@@ -316,6 +416,11 @@ public class FXMLDocumentController implements Initializable {
         //currentFileName = currentFile.getName();
         System.out.println(currentFile.getName());
         System.out.println(currentFile.getPath());
+        
+        String[] tempMice = {"Mouse 1","Mouse 2", "Mouse 3", "Omega Mouse"};
+        mice = tempMice;
+        
+        
         
         /* Gets the file path of the file */
         String dataPath = file.getPath();
