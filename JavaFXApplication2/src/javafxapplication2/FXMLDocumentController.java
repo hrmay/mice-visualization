@@ -55,6 +55,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button loadPrevButton;
     
+    @FXML
+    private Button selectMiceButton;
+    
     Stage loadPrevStage;
     
     /* Buttons that are involved wsith saving */
@@ -69,12 +72,18 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Label saveFileName; /*  */
     
-      /* The SavePopUp window */
-                Stage saveStage;
-                /* design for the stage */
-                Parent root;
-
+    @FXML
+    private Button generateButton;
     
+    @FXML
+    private Button saveMapButton;
+    
+    /* The SavePopUp window */
+    Stage saveStage;
+    
+    /* design for the stage */
+    Parent root;
+               
     /* Stage for the File Explorer window when loading a new file */
     @FXML
     private Window stage;
@@ -223,12 +232,20 @@ public class FXMLDocumentController implements Initializable {
                 loadPrevStage.showAndWait();
             }
         }
-        /*
+        
+        else if(event.getSource()==selectMiceButton){
+            System.out.println("Select Mice");
+        }
+        
         else if(event.getSource()==generateButton){
             System.out.println("Generating Map!!!!");
             
         }
-        else{
+        
+        else if(event.getSource()==saveMapButton){
+            System.out.println("Save Map");
+        }
+        /*else{
             System.out.println("....");
         
         }*/
