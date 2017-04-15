@@ -162,7 +162,6 @@ public class FXMLDocumentController implements Initializable {
                 try(BufferedReader br = new BufferedReader(new FileReader(file))) {
                     
                     for(String line; (line = br.readLine()) != null; ) {
-                        //System.out.println(line.indexOf(";"));
                         RadioButton lbl = new RadioButton(line.substring(0,line.indexOf(";")));
                         lbl.setToggleGroup(group);
                         lbl.setUserData(line.substring(0,line.indexOf(";")));
@@ -171,41 +170,27 @@ public class FXMLDocumentController implements Initializable {
                     }
                     
                     
-                br.close();    // line is not visible here.
+                br.close();
                 }
-                
-                /*
-                int x = 1;
-                for(int y = 0; y < 2; y++){
-                    Label userName = new Label(""+y);
-                    grid.add(userName, 0, x);
-                    x++;
-                }*/
 
                 Button btn = new Button("Load");
                 Button cBtn = new Button("Cancel");                
-                //HBox hbBtn = new HBox(10);
-                //hbBtn.setAlignment(Pos.BOTTOM_CENTER);
-                //hbBtn.getChildren().add(btn);
                 grid.add(btn, 0, x);
                 grid.add(cBtn, 1, x);
-
                
                 btn.setOnAction((ActionEvent e) -> {
                     String loadPrevNm = group.getSelectedToggle().getUserData().toString();
-                    //System.out.println(group.getSelectedToggle().getUserData().toString());   
+  
                     String loadPrevNamePath = null;
                     
                     try(BufferedReader br2 = new BufferedReader(new FileReader(file))) {
                     
                         for(String line; (line = br2.readLine()) != null; ) {
                             String nm = line.substring(0, line.indexOf(";"));
-                      //      System.out.println(nm + "- " + line);
                             
                             if(nm.equals(loadPrevNm)){
-                        //        System.out.println(line);
+                                
                                   loadPrevNamePath = line.substring((line.indexOf(";")+2), line.length());
-                        //        System.out.println(loadPrevNamePath);
                                 
                                   break;
                             }
@@ -213,7 +198,7 @@ public class FXMLDocumentController implements Initializable {
                         }
                                         
                         br2.close();
-                    // line is not visible here.
+                        
                     }   catch (FileNotFoundException ex) {   
                         Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IOException ex) {
@@ -222,22 +207,17 @@ public class FXMLDocumentController implements Initializable {
                     
                     loadPrevStage.close();
                     File f = new File(loadPrevNamePath);
-                    //System.out.println(loadPrevNamePath);
+
                     loadData(f);
                     
                 });
                    
-                
-                
+                                
                 cBtn.setOnAction((ActionEvent e) -> {
                     System.out.println("Cancelling load previous.");
                     loadPrevStage.close();
                 });
                     
-                
-                //final Text actiontarget = new Text();
-                //grid.add(actiontarget, 1, 6);
-                
                 /* Shows the pop up to the user and waits until they have closed
                     it out */
                 loadPrevStage.showAndWait();
