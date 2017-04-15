@@ -14,8 +14,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,13 +27,10 @@ import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -173,7 +171,7 @@ public class FXMLDocumentController implements Initializable {
                     }
                     
                     
-                    // line is not visible here.
+                br.close();    // line is not visible here.
                 }
                 
                 /*
@@ -194,21 +192,43 @@ public class FXMLDocumentController implements Initializable {
 
                
                 btn.setOnAction((ActionEvent e) -> {
-                    System.out.println(group.getSelectedToggle().getUserData());
-                 
-                    //try(BufferedReader br2 = new BufferedReader(new FileReader(file))) {
+                    String loadPrevNm = group.getSelectedToggle().getUserData().toString();
+                    //System.out.println(group.getSelectedToggle().getUserData().toString());   
+                    String loadPrevNamePath = null;
                     
-                    //    for(String line; (line = br2.readLine()) != null; ) {
-                        //System.out.println(line.indexOf(";"));
-                        
-                  //      }
+                    try(BufferedReader br2 = new BufferedReader(new FileReader(file))) {
                     
-                    
+                        for(String line; (line = br2.readLine()) != null; ) {
+                            String nm = line.substring(0, line.indexOf(";"));
+                      //      System.out.println(nm + "- " + line);
+                            
+                            if(nm.equals(loadPrevNm)){
+                        //        System.out.println(line);
+                                  loadPrevNamePath = line.substring((line.indexOf(";")+2), line.length());
+                        //        System.out.println(loadPrevNamePath);
+                                
+                                  break;
+                            }
+                            
+                        }
+                                        
+                        br2.close();
                     // line is not visible here.
-               // }   
+                    }   catch (FileNotFoundException ex) {   
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                     loadPrevStage.close();
+                    File f = new File(loadPrevNamePath);
+                    //System.out.println(loadPrevNamePath);
+                    loadData(f);
+                    
                 });
                    
+                
+                
                 cBtn.setOnAction((ActionEvent e) -> {
                     System.out.println("Cancelling load previous.");
                     loadPrevStage.close();
