@@ -45,25 +45,24 @@ import javafx.stage.Window;
  */
 public class FXMLDocumentController implements Initializable {
     
-    /* Load button on main app window */
-    @FXML
-    private Button loadButton;
-    
-    private File currentFile;
-    @FXML
-    private String currentFileName;
     
     @FXML
-    private Button loadPrevButton;
+    private Button loadButton; /* Load button on main app window */
+    private File currentFile; /* Holds the loaded file */
+    @FXML
+    private String currentFileName; /* Trash */
     
     @FXML
-    private Button selectMiceButton;
+    private Button loadPrevButton; /* Load Prevous button on main app window */
     
-    Stage loadPrevStage;
+    @FXML
+    private Button selectMiceButton; /* Select Mice button on main app window */
     
-    Stage miceStage;
+    Stage loadPrevStage; /* The pop up window for the load prevous functions */
     
-    /* Buttons that are involved wsith saving */
+    Stage miceStage; /* The pop up window for the select mice functions */
+    
+    /* Buttons that are involved with saving */
     @FXML
     private Button saveButton; /* Save button on the main app window */
     @FXML
@@ -71,30 +70,23 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button cancelSave; /* Cancel button on the SavePopUP Window */
     @FXML
-    private TextField saveNameField; /*  */
+    private TextField saveNameField; /* The textfield where you input the name 
+                                         you would like to save as */
     @FXML
-    private Label saveFileName; /*  */
-    
+    private Label saveFileName; /* The label on the save pop up that displays 
+                                    the file you are saving */
     @FXML
-    private Button generateButton;
-    
+    private Button generateButton; /* Button on main window for generate map */
     @FXML
-    private Button saveMapButton;
-    
-    private String[] mice = null;
-            
-    private String[] selectedMice = null;
-    
-    /* The SavePopUp window */
-    Stage saveStage;
-    
-    /* design for the stage */
-    Parent root;
-               
-    /* Stage for the File Explorer window when loading a new file */
+    private Button saveMapButton; /* Button on main window for save map */
+    private String[] mice = null; /* Array of mice from the parsed file */
+    private String[] selectedMice = null; /* EVAN! Array of selected mice */
+    Stage saveStage; /* The SavePopUp window */
+    Parent root; /* design for the stage */
     @FXML
-    private Window stage;
-    
+    private Window stage; /* Stage for the File Explorer window when loading a 
+                              new file */
+
     /* Sets the currentFile from the Main window controller to the currentFile 
         in the SaveWindow controller */
     public void setFile(File currentFile){
@@ -154,8 +146,7 @@ public class FXMLDocumentController implements Initializable {
         else if(event.getSource()==loadPrevButton){
             
             File file = new File(".//savedData.txt");
-            if(file.exists()){
-                
+            if(file.exists()){    
              
                 /* Create a new stage for the SavePopUp */
                 loadPrevStage=new Stage();
@@ -309,11 +300,6 @@ public class FXMLDocumentController implements Initializable {
                             //if(selectedMice == null){
                                 tempSelected[z] = cBoxes[y].getText();
                                 z++;
-                                //System.out.println("AH");
-                            //}else{
-                            //    selectedMice[selectedMice.length] = cBoxes[y].getText();
-                            //}
-             //               System.out.println(cBoxes[y].getText());
                         }
                         
                     }
@@ -345,11 +331,6 @@ public class FXMLDocumentController implements Initializable {
         else if(event.getSource()==saveMapButton){
             System.out.println("Save Map");
         }
-        /*else{
-            System.out.println("....");
-        
-        }*/
-    //    label.setText("Hello World!");
     }
     
     /* Opens the SavePopUp Window and handles all events that occur in that 
@@ -417,6 +398,7 @@ public class FXMLDocumentController implements Initializable {
         System.out.println(currentFile.getName());
         System.out.println(currentFile.getPath());
         
+        /* EVAN! */
         String[] tempMice = {"Mouse 1","Mouse 2", "Mouse 3", "Omega Mouse"};
         mice = tempMice;
         
