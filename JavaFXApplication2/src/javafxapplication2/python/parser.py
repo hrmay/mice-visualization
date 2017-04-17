@@ -22,17 +22,18 @@ for line in file:
             #add the parsed line to the array
             data.append(values)
 
-
+mice = list()
 for entry in data:
     for i in range(0,len(entry)):
         entry[i] = re.sub(r"[^a-zA-Z0-9\.]", "", entry[i])
     
-    if (entry[3] == 'RFID25'):
-        print("removing: ")
-        print(entry)
+    if (entry[3] == 'RFID25' or entry[3] == 'Control'):
+        #print("removing: ")
+        #print(entry)
         data.remove(entry)
     else:
         tempFloat = float(re.sub(r"[^0-9\.]", "", entry[0]))
         entry[0] = int(round((tempFloat * 86400) - 2209161600))
-
-    tempFloat = float(re.sub(r"[^0-9\.]", "", entry[0]))
+        if entry[2] not in mice:
+            mice.append(entry[2])
+        

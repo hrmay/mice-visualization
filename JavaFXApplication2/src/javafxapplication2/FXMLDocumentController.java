@@ -35,6 +35,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -67,10 +69,9 @@ public class FXMLDocumentController implements Initializable {
     /* The load previous data set window */
     Stage loadPrevStage;
     
-    /* The select mice pop up window */
-    Stage miceStage;
+    Stage miceStage; /* The pop up window for the select mice functions */
     
-    /* Buttons that are involved wsith saving */
+    /* Buttons that are involved with saving */
     @FXML
     private Button saveButton; /* Save button on the main app window */
     @FXML
@@ -106,7 +107,13 @@ public class FXMLDocumentController implements Initializable {
                
     /* Stage for the File Explorer window when loading a new file */
     @FXML
-    private Window stage;
+    private Window stage; /* Stage for the File Explorer window when loading a 
+                              new file */
+
+    @FXML
+    WebView myWebView;
+    
+    String heatmapFile;
     
     /* Sets the currentFile from the Main window controller to the currentFile 
         in the SaveWindow controller */
@@ -323,11 +330,6 @@ public class FXMLDocumentController implements Initializable {
                             //if(selectedMice == null){
                                 tempSelected[z] = cBoxes[y].getText();
                                 z++;
-                                //System.out.println("AH");
-                            //}else{
-                            //    selectedMice[selectedMice.length] = cBoxes[y].getText();
-                            //}
-             //               System.out.println(cBoxes[y].getText());
                         }
                         
                     }
@@ -353,17 +355,16 @@ public class FXMLDocumentController implements Initializable {
         
         else if(event.getSource()==generateButton){
             System.out.println("Generating Map!!!!");
+          
+            WebEngine engine = myWebView.getEngine();
+            //heatmapFile = ;
+            //engine.load(heatmapFile);
             
         }
         
         else if(event.getSource()==saveMapButton){
             System.out.println("Save Map");
         }
-        /*else{
-            System.out.println("....");
-        
-        }*/
-    //    label.setText("Hello World!");
     }
     
     /* Opens the SavePopUp Window and handles all events that occur in that 
@@ -431,6 +432,7 @@ public class FXMLDocumentController implements Initializable {
         System.out.println(currentFile.getName());
         System.out.println(currentFile.getPath());
         
+        /* EVAN! */
         String[] tempMice = {"Mouse 1","Mouse 2", "Mouse 3", "Omega Mouse"};
         mice = tempMice;
         
