@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package javafxapplication2;
 
 import org.python.core.PyException;
@@ -12,14 +7,22 @@ import org.python.core.PyString;
 import org.python.core.PyObject;
 import org.python.util.PythonInterpreter;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  *
  * @author Evan
  */
-public class parser {
-    public static PyObject parse(String dataset) throws FileNotFoundException, IOException{
+public class Parser {
+    
+    private PyList mice;
+    
+    public void Parser() {
+    }
+    
+    public PyObject parse(String dataset) throws FileNotFoundException, IOException{
         //Open python interpeter
         PythonInterpreter interp = new PythonInterpreter();
         
@@ -34,11 +37,17 @@ public class parser {
         PyList pyMice = new PyList(interp.get("mice"));
         
        // String[][] data = (String[][]) new PyList(interp.get("data")).toArray(new String[0][0]);
-        String[] mice = (String[]) new PyList(interp.get("mice")).toArray(new String[0]);
+        mice =  new PyList(interp.get("mice"));
+        
         
         //System.out.println(data);
         System.out.println(mice);
 
         return pyData;
+    }
+    
+    public String[] getMice() {
+        String[] miceArray = (String[]) mice.toArray(new String[0]);
+        return miceArray;
     }
 }
