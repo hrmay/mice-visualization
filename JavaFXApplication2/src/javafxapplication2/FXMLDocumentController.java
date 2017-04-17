@@ -35,6 +35,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -87,6 +89,11 @@ public class FXMLDocumentController implements Initializable {
     private Window stage; /* Stage for the File Explorer window when loading a 
                               new file */
 
+    @FXML
+    WebView myWebView;
+    
+    String heatmapFile;
+    
     /* Sets the currentFile from the Main window controller to the currentFile 
         in the SaveWindow controller */
     public void setFile(File currentFile){
@@ -325,6 +332,10 @@ public class FXMLDocumentController implements Initializable {
         
         else if(event.getSource()==generateButton){
             System.out.println("Generating Map!!!!");
+          
+            WebEngine engine = myWebView.getEngine();
+            //heatmapFile = ;
+            //engine.load(heatmapFile);
             
         }
         
