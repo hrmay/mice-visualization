@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,8 +36,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -47,24 +46,25 @@ import javafx.stage.Window;
  */
 public class FXMLDocumentController implements Initializable {
     
+    /* Load button on main app window */
+    @FXML
+    private Button loadButton;
+    
+    private File currentFile;
+    @FXML
+    private String currentFileName;
     
     @FXML
-    private Button loadButton; /* Load button on main app window */
-    private File currentFile; /* Holds the loaded file */
-    @FXML
-    private String currentFileName; /* Trash */
+    private Button loadPrevButton;
     
     @FXML
-    private Button loadPrevButton; /* Load Prevous button on main app window */
+    private Button selectMiceButton;
     
-    @FXML
-    private Button selectMiceButton; /* Select Mice button on main app window */
+    Stage loadPrevStage;
     
-    Stage loadPrevStage; /* The pop up window for the load prevous functions */
+    Stage miceStage;
     
-    Stage miceStage; /* The pop up window for the select mice functions */
-    
-    /* Buttons that are involved with saving */
+    /* Buttons that are involved wsith saving */
     @FXML
     private Button saveButton; /* Save button on the main app window */
     @FXML
@@ -72,27 +72,29 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button cancelSave; /* Cancel button on the SavePopUP Window */
     @FXML
-    private TextField saveNameField; /* The textfield where you input the name 
-                                         you would like to save as */
+    private TextField saveNameField; /*  */
     @FXML
-    private Label saveFileName; /* The label on the save pop up that displays 
-                                    the file you are saving */
-    @FXML
-    private Button generateButton; /* Button on main window for generate map */
-    @FXML
-    private Button saveMapButton; /* Button on main window for save map */
-    private String[] mice = null; /* Array of mice from the parsed file */
-    private String[] selectedMice = null; /* EVAN! Array of selected mice */
-    Stage saveStage; /* The SavePopUp window */
-    Parent root; /* design for the stage */
-    @FXML
-    private Window stage; /* Stage for the File Explorer window when loading a 
-                              new file */
-
-    @FXML
-    WebView myWebView;
+    private Label saveFileName; /*  */
     
-    String heatmapFile;
+    @FXML
+    private Button generateButton;
+    
+    @FXML
+    private Button saveMapButton;
+    
+    private String[] mice = null;
+            
+    private String[] selectedMice = null;
+    
+    /* The SavePopUp window */
+    Stage saveStage;
+    
+    /* design for the stage */
+    Parent root;
+               
+    /* Stage for the File Explorer window when loading a new file */
+    @FXML
+    private Window stage;
     
     /* Sets the currentFile from the Main window controller to the currentFile 
         in the SaveWindow controller */
@@ -153,7 +155,8 @@ public class FXMLDocumentController implements Initializable {
         else if(event.getSource()==loadPrevButton){
             
             File file = new File(".//savedData.txt");
-            if(file.exists()){    
+            if(file.exists()){
+                
              
                 /* Create a new stage for the SavePopUp */
                 loadPrevStage=new Stage();
@@ -222,7 +225,11 @@ public class FXMLDocumentController implements Initializable {
                     loadPrevStage.close();
                     File f = new File(loadPrevNamePath);
 
-                    loadData(f);
+                    try {
+                        loadData(f);
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     
                 });
                    
@@ -307,6 +314,11 @@ public class FXMLDocumentController implements Initializable {
                             //if(selectedMice == null){
                                 tempSelected[z] = cBoxes[y].getText();
                                 z++;
+                                //System.out.println("AH");
+                            //}else{
+                            //    selectedMice[selectedMice.length] = cBoxes[y].getText();
+                            //}
+             //               System.out.println(cBoxes[y].getText());
                         }
                         
                     }
@@ -332,16 +344,18 @@ public class FXMLDocumentController implements Initializable {
         
         else if(event.getSource()==generateButton){
             System.out.println("Generating Map!!!!");
-          
-            WebEngine engine = myWebView.getEngine();
-            //heatmapFile = ;
-            //engine.load(heatmapFile);
+            
             
         }
         
         else if(event.getSource()==saveMapButton){
             System.out.println("Save Map");
         }
+        /*else{
+            System.out.println("....");
+        
+        }*/
+    //    label.setText("Hello World!");
     }
     
     /* Opens the SavePopUp Window and handles all events that occur in that 
@@ -402,24 +416,25 @@ public class FXMLDocumentController implements Initializable {
         loadData(file);
     }
     
-    private void loadData(File file){   
+    private void loadData(File file) throws IOException{   
         /* stores the file into current file */
         currentFile = file;
         //currentFileName = currentFile.getName();
         System.out.println(currentFile.getName());
         System.out.println(currentFile.getPath());
         
-        /* EVAN! */
-        String[] tempMice = {"Mouse 1","Mouse 2", "Mouse 3", "Omega Mouse"};
-        mice = tempMice;
+        //String[] tempMice = {"Mouse 1","Mouse 2", "Mouse 3", "Omega Mouse"};
+        
         
         
         
         /* Gets the file path of the file */
         String dataPath = file.getPath();
+        Parser p = new Parser();
         
-      //  parser.parse(dataPath);
-        
+        p.parse(currentFile.getAbsolutePath());
+        mice = p.getMice();
+        System.out.println(mice);
         /* Gives the file path to the parser
             Parses the data
             Stores the parsed data into a array of strings */
