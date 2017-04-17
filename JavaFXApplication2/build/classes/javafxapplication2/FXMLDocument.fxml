@@ -11,83 +11,38 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication2.FXMLDocumentController">
     <children>
-        <SplitPane dividerPositions="0.5, 0.5" orientation="VERTICAL" prefHeight="415.0" prefWidth="587.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <items>
-                <MenuBar>
-                    <menus>
-                        <Menu mnemonicParsing="false" text="File">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="Import" />
-                                <MenuItem mnemonicParsing="false" text="Save" />
-                                <MenuItem mnemonicParsing="false" text="Export Map" />
-                            </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Edit">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="Delete" />
-                            </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Help">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="About" />
-                            </items>
-                        </Menu>
-                    </menus>
-                </MenuBar>
-                <ToolBar prefHeight="27.0" prefWidth="585.0">
-                    <items>
-                        <Button fx:id="loadButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Load" />
-                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Save" />
-                  <Button fx:id="loadPrevButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Load Previous" />
-                  <TextField text="Start Time" />
-                  <Label text="-" />
-                  <TextField text="End Time" />
-                        <Button fx:id="generateButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Generate Map" />
-                        <Button mnemonicParsing="false" text="Save Map" />
-                    </items>
-                </ToolBar>
-                <SplitPane dividerPositions="0.25">
-                    <items>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="200.0" style="-fx-background-color: red;">
-                            <children>
-                                <TabPane prefHeight="526.0" prefWidth="197.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                    <tabs>
-                                        <Tab text="Mice">
-                                            <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: red;" />
-                                            </content>
-                                        </Tab>
-                                        <Tab text="Data">
-                                            <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: orange;" />
-                                            </content>
-                                        </Tab>
-                                    </tabs>
-                                </TabPane>
-                            </children>
-                        </AnchorPane>
-                        <SplitPane dividerPositions="0.9" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
-                            <items>
-                                <SplitPane dividerPositions="0.85" prefHeight="160.0" prefWidth="200.0">
-                                    <items>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="260.0" prefWidth="272.0" style="-fx-background-color: blue;" />
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: yellow;">
-                                            <children>
-                                                <VBox prefHeight="444.0" prefWidth="86.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                    <children>
-                                                        <Label prefHeight="31.0" prefWidth="38.0" text="Key" />
-                                                    </children>
-                                                </VBox>
-                                            </children>
-                                        </AnchorPane>
-                                    </items>
-                                </SplitPane>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: green;" />
-                            </items>
-                        </SplitPane>
-                    </items>
-                </SplitPane>
-            </items>
-        </SplitPane>
+      <BorderPane prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <AnchorPane prefHeight="41.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+               <children>
+                      <ToolBar prefHeight="105.0" prefWidth="800.0" style="-fx-background-color: steelblue;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                              <Button fx:id="loadButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Load" />
+                              <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Save" />
+                        <Button fx:id="loadPrevButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Load Previous" />
+                        <Button fx:id="selectMiceButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Select Mice" />
+                        <ComboBox prefWidth="150.0" promptText="Start Time" />
+                        <Label text="-" />
+                        <ComboBox prefWidth="150.0" promptText="End Time" />
+                              <Button fx:id="generateButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Generate Map" />
+                              <Button fx:id="saveMapButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Save Map" />
+                          </items>
+                      </ToolBar>
+               </children>
+            </AnchorPane>
+         </top>
+         <bottom>
+            <AnchorPane prefHeight="67.0" prefWidth="800.0" style="-fx-background-color: steelblue;" BorderPane.alignment="CENTER" />
+         </bottom>
+         <left>
+            <AnchorPane prefHeight="492.0" prefWidth="100.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <AnchorPane prefHeight="492.0" prefWidth="100.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER" />
+         </right>
+         <center>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="260.0" prefWidth="272.0" style="-fx-background-color: blue;" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
     </children>
 </AnchorPane>
