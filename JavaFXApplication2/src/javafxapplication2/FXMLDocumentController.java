@@ -47,20 +47,27 @@ public class FXMLDocumentController implements Initializable {
     
     /* Load button on main app window */
     @FXML
-    private Button loadButton;
+    private Button loadButton; /* Button to open file explorer to load in a
+    new data set */
     
-    private File currentFile;
-    @FXML
-    private String currentFileName;
-    
-    @FXML
-    private Button loadPrevButton;
+    private File currentFile; /* Instantiation of the object that will be
+    used to hold the currently loaded file */
     
     @FXML
-    private Button selectMiceButton;
+    private String currentFileName; /* Not currently used as far as we know */
     
+    @FXML
+    private Button loadPrevButton; /* The button that creates the load
+    previous data set pop up window */
+    
+    @FXML
+    private Button selectMiceButton; /* The button that creates the select
+    mice pop up window */
+    
+    /* The load previous data set window */
     Stage loadPrevStage;
     
+    /* The select mice pop up window */
     Stage miceStage;
     
     /* Buttons that are involved wsith saving */
@@ -71,19 +78,25 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button cancelSave; /* Cancel button on the SavePopUP Window */
     @FXML
-    private TextField saveNameField; /*  */
+    private TextField saveNameField; /* Text field used to enter the name of
+    the data set to be saved */
     @FXML
-    private Label saveFileName; /*  */
+    private Label saveFileName; /* Label displaying the filename of the data
+    set to be saved */
     
     @FXML
-    private Button generateButton;
+    private Button generateButton; /* The button that will be used to generate
+    heat maps */
     
     @FXML
-    private Button saveMapButton;
+    private Button saveMapButton; /* The button that will be used to export
+    an image of the current heat map */
     
-    private String[] mice = null;
+    private String[] mice = null; /* An array of Strings containing the names
+    of all the mice in the data set */
             
-    private String[] selectedMice = null;
+    private String[] selectedMice = null; /* An array of Strings containing
+    the names of each of the mice that have been selected */
     
     /* The SavePopUp window */
     Stage saveStage;
@@ -153,11 +166,12 @@ public class FXMLDocumentController implements Initializable {
         /* If the "Load Previous" button on the main window was pressed */
         else if(event.getSource()==loadPrevButton){
             
+            /* Names the file to write in saved data set information */
             File file = new File(".//savedData.txt");
+            /* If the file already existed/is successfully created */
             if(file.exists()){
-                
              
-                /* Create a new stage for the SavePopUp */
+                /* Create a new stage for the load previous data set pop up */
                 loadPrevStage=new Stage();
                 GridPane grid = new GridPane();
                 grid.setAlignment(Pos.TOP_CENTER);
@@ -185,12 +199,13 @@ public class FXMLDocumentController implements Initializable {
                         x++;
                     }
                     
-                    
                 br.close();
                 }
 
-                Button btn = new Button("Load");
-                Button cBtn = new Button("Cancel");                
+                Button btn = new Button("Load"); /* Load button on load 
+                previous data set window */
+                Button cBtn = new Button("Cancel"); /* Cancel button on load
+                previous data set window */               
                 grid.add(btn, 0, x);
                 grid.add(cBtn, 1, x);
                
@@ -227,7 +242,6 @@ public class FXMLDocumentController implements Initializable {
                     loadData(f);
                     
                 });
-                   
                                 
                 cBtn.setOnAction((ActionEvent e) -> {
                     System.out.println("Cancelling load previous.");
