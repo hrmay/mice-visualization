@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +36,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -69,9 +69,9 @@ public class FXMLDocumentController implements Initializable {
     /* The load previous data set window */
     Stage loadPrevStage;
     
-    Stage miceStage; /* The pop up window for the select mice functions */
+    Stage miceStage;
     
-    /* Buttons that are involved with saving */
+    /* Buttons that are involved wsith saving */
     @FXML
     private Button saveButton; /* Save button on the main app window */
     @FXML
@@ -112,8 +112,6 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     WebView myWebView;
-    
-    String heatmapFile;
     
     /* Sets the currentFile from the Main window controller to the currentFile 
         in the SaveWindow controller */
@@ -246,7 +244,11 @@ public class FXMLDocumentController implements Initializable {
                     loadPrevStage.close();
                     File f = new File(loadPrevNamePath);
 
-                    loadData(f);
+                    try {
+                        loadData(f);
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     
                 });
                                 
@@ -330,6 +332,11 @@ public class FXMLDocumentController implements Initializable {
                             //if(selectedMice == null){
                                 tempSelected[z] = cBoxes[y].getText();
                                 z++;
+                                //System.out.println("AH");
+                            //}else{
+                            //    selectedMice[selectedMice.length] = cBoxes[y].getText();
+                            //}
+             //               System.out.println(cBoxes[y].getText());
                         }
                         
                     }
@@ -355,16 +362,18 @@ public class FXMLDocumentController implements Initializable {
         
         else if(event.getSource()==generateButton){
             System.out.println("Generating Map!!!!");
-          
-            WebEngine engine = myWebView.getEngine();
-            //heatmapFile = ;
-            //engine.load(heatmapFile);
+            
             
         }
         
         else if(event.getSource()==saveMapButton){
             System.out.println("Save Map");
         }
+        /*else{
+            System.out.println("....");
+        
+        }*/
+    //    label.setText("Hello World!");
     }
     
     /* Opens the SavePopUp Window and handles all events that occur in that 
@@ -425,24 +434,25 @@ public class FXMLDocumentController implements Initializable {
         loadData(file);
     }
     
-    private void loadData(File file){   
+    private void loadData(File file) throws IOException{   
         /* stores the file into current file */
         currentFile = file;
         //currentFileName = currentFile.getName();
         System.out.println(currentFile.getName());
         System.out.println(currentFile.getPath());
         
-        /* EVAN! */
-        String[] tempMice = {"Mouse 1","Mouse 2", "Mouse 3", "Omega Mouse"};
-        mice = tempMice;
+        //String[] tempMice = {"Mouse 1","Mouse 2", "Mouse 3", "Omega Mouse"};
+        
         
         
         
         /* Gets the file path of the file */
         String dataPath = file.getPath();
+        Parser p = new Parser();
         
-      //  parser.parse(dataPath);
-        
+        p.parse(currentFile.getAbsolutePath());
+        mice = p.getMice();
+        System.out.println(mice);
         /* Gives the file path to the parser
             Parses the data
             Stores the parsed data into a array of strings */
