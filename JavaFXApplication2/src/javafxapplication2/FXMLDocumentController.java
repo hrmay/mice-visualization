@@ -13,10 +13,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +30,7 @@ import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -36,6 +39,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -65,6 +69,14 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button selectMiceButton; /* The button that creates the select
     mice pop up window */
+    
+    @FXML
+    private ComboBox startTimeBox; /* The Combo Box that is used to select the
+    start time for the map to be generated */
+    
+    @FXML
+    private ComboBox endTimeBox; /* The Combo Box that is used to select the
+    end time for the map to be generated */
     
     /* The load previous data set window */
     Stage loadPrevStage;
@@ -98,6 +110,12 @@ public class FXMLDocumentController implements Initializable {
             
     private String[] selectedMice = null; /* An array of Strings containing
     the names of each of the mice that have been selected */
+    
+    private String[] timestamps = null; /* An array of Strings containing all
+    the timestamps from the data set */
+    
+    private String[] selectedTimestamps = null; /* An array of Strings
+    containing all the selected timestamps from the data set */
     
     /* The SavePopUp window */
     Stage saveStage;
@@ -360,9 +378,21 @@ public class FXMLDocumentController implements Initializable {
             }
         }
         
+        else if(event.getSource()==startTimeBox) {
+        
+        }
+        
+        else if(event.getSource()==endTimeBox) {
+        
+        }
+        
         else if(event.getSource()==generateButton){
             System.out.println("Generating Map!!!!");
             
+            
+            
+            WebEngine webEngine = myWebView.getEngine();
+            webEngine.load("https://umw.edu");
             
         }
         
@@ -453,6 +483,15 @@ public class FXMLDocumentController implements Initializable {
         p.parse(currentFile.getAbsolutePath());
         mice = p.getMice();
         System.out.println(mice);
+        
+        String[] tempTimestamps = {"2", "3", "4", "5"};
+        timestamps = tempTimestamps;
+        
+        //List<String> timestampsList = new ArrayList<String>(Arrays.asList(timestamps));
+        
+        //startTimeBox.
+        
+        
         /* Gives the file path to the parser
             Parses the data
             Stores the parsed data into a array of strings */
