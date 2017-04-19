@@ -453,13 +453,47 @@ public class FXMLDocumentController implements Initializable {
                         
                     }
                     
-                    selectedMice = tempSelected;
+                    if(tempSelected.length>8 && tempSelected[8] != null){
+                          /* Create a new stage for the SavePopUp */
+                            errorStage=new Stage();
+                            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PopUpError.fxml"));
+
+                             try {
+                            /* */
+                            root =(Parent) fxmlLoader.load();
+                        } catch (IOException ex) {
+                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                            /* set the pop up scene to the design from root */
+                            errorStage.setScene(new Scene(root));
+
+                            FXMLDocumentController controller = fxmlLoader.getController(); 
+
+                            /* Passes currentFile from one controller to the other */
+                            //controller.setFile(currentFile);
+
+                            /* Sets the label to the name of the file*/
+                            controller.errorLabel.setText("You can only select up to 8 mice.");
+
+                            /* initializes pop up functionality */
+                            errorStage.initModality(Modality.APPLICATION_MODAL);
+
+                            /* sets the owner of the stage to the main window save button */
+                            errorStage.initOwner(saveButton.getScene().getWindow());
+
+                            /* Shows the pop up to the user and waits until they have closed
+                                it out */
+                            errorStage.showAndWait();
+                    }else{
+                        selectedMice = tempSelected;
                     
-                    for(int y = 0; y< selectedMice.length; y++){
-                        System.out.println(selectedMice[y]);
+                        for(int y = 0; y< selectedMice.length; y++){
+                            System.out.println(selectedMice[y]);
+                        }
+                    
+                        miceStage.close();
                     }
-                    
-                    miceStage.close();
                 });
                 
                 cBtn.setOnAction((ActionEvent e) -> {
@@ -512,6 +546,9 @@ public class FXMLDocumentController implements Initializable {
                     it out */
                 errorStage.showAndWait();
             }else{
+                System.out.println("Start Time: " + startTime);
+                System.out.println("End Time: " + endTime);
+                
                 WebEngine webEngine = myWebView.getEngine();
                 webEngine.load("https://umw.edu");
             }
@@ -603,11 +640,11 @@ public class FXMLDocumentController implements Initializable {
         
         p.parse(currentFile.getAbsolutePath());
         mice = p.getMice();
-        System.out.println(mice);
+        //System.out.println(mice);
         
         /* Auto Select All Mice */
         selectedMice = mice;
-        
+      
         // This is where Evan works his magic
         String[] tempTimestamps = {"2", "3", "4", "5"};
         timestamps = tempTimestamps;
@@ -645,8 +682,8 @@ public class FXMLDocumentController implements Initializable {
     
         startTimeBox.setOnAction((event)->{
             
-            System.out.println("Index "+obList.indexOf(startTimeBox.getSelectionModel().getSelectedItem()));
-            System.out.println(startTimeBox.getSelectionModel().getSelectedItem().toString());
+            //System.out.println("Index "+obList.indexOf(startTimeBox.getSelectionModel().getSelectedItem()));
+            //System.out.println(startTimeBox.getSelectionModel().getSelectedItem().toString());
         
             startTime = Integer.parseInt(startTimeBox.getSelectionModel().getSelectedItem().toString());
             
@@ -672,11 +709,11 @@ public class FXMLDocumentController implements Initializable {
     
         endTimeBox.setOnAction((event)->{
             
-            System.out.println("endIndex "+obList.indexOf(endTimeBox.getSelectionModel().getSelectedItem()));
-            System.out.println(endTimeBox.getSelectionModel().getSelectedItem().toString());
+            //System.out.println("endIndex "+obList.indexOf(endTimeBox.getSelectionModel().getSelectedItem()));
+            //System.out.println(endTimeBox.getSelectionModel().getSelectedItem().toString());
         
             endTime = Integer.parseInt(endTimeBox.getSelectionModel().getSelectedItem().toString());
-            System.out.println(endTime+10);
+            //System.out.println(endTime+10);
         });
         
     }    
