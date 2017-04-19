@@ -15,9 +15,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -98,6 +100,9 @@ public class FXMLDocumentController implements Initializable {
     set to be saved */
     
     @FXML
+    private Label errorLabel;
+    
+    @FXML
     private Button generateButton; /* The button that will be used to generate
     heat maps */
     
@@ -114,11 +119,16 @@ public class FXMLDocumentController implements Initializable {
     private String[] timestamps = null; /* An array of Strings containing all
     the timestamps from the data set */
     
-    private String[] selectedTimestamps = null; /* An array of Strings
-    containing all the selected timestamps from the data set */
+    //private String[] selectedTimestamps = null; /* An array of Strings
+    //containing all the selected timestamps from the data set */
+    
+    private int startTime;
+    private int endTime;
     
     /* The SavePopUp window */
     Stage saveStage;
+    
+    Stage errorStage;
     
     /* design for the stage */
     Parent root;
@@ -183,6 +193,33 @@ public class FXMLDocumentController implements Initializable {
         
             }else{
                 System.out.println("No File to save");
+                /* Create a new stage for the SavePopUp */
+                errorStage=new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PopUpError.fxml"));
+                
+                /* */
+                root =(Parent) fxmlLoader.load();
+                
+                /* set the pop up scene to the design from root */
+                errorStage.setScene(new Scene(root));
+
+                FXMLDocumentController controller = fxmlLoader.getController(); 
+                
+                /* Passes currentFile from one controller to the other */
+                //controller.setFile(currentFile);
+                
+                /* Sets the label to the name of the file*/
+                controller.errorLabel.setText("No File Loaded.\nLoad File First Before Saving.");
+                
+                /* initializes pop up functionality */
+                errorStage.initModality(Modality.APPLICATION_MODAL);
+
+                /* sets the owner of the stage to the main window save button */
+                errorStage.initOwner(saveButton.getScene().getWindow());
+                
+                /* Shows the pop up to the user and waits until they have closed
+                    it out */
+                errorStage.showAndWait();
             }
         }
         
@@ -278,13 +315,70 @@ public class FXMLDocumentController implements Initializable {
                 /* Shows the pop up to the user and waits until they have closed
                     it out */
                 loadPrevStage.showAndWait();
+            }else{
+                /* Create a new stage for the SavePopUp */
+                errorStage=new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PopUpError.fxml"));
+                
+                /* */
+                root =(Parent) fxmlLoader.load();
+                
+                /* set the pop up scene to the design from root */
+                errorStage.setScene(new Scene(root));
+
+                FXMLDocumentController controller = fxmlLoader.getController(); 
+                
+                /* Passes currentFile from one controller to the other */
+                //controller.setFile(currentFile);
+                
+                /* Sets the label to the name of the file*/
+                controller.errorLabel.setText("No Files Saved.");
+                
+                /* initializes pop up functionality */
+                errorStage.initModality(Modality.APPLICATION_MODAL);
+
+                /* sets the owner of the stage to the main window save button */
+                errorStage.initOwner(loadPrevButton.getScene().getWindow());
+                
+                /* Shows the pop up to the user and waits until they have closed
+                    it out */
+                errorStage.showAndWait();
             }
+            
+            
         }
         
         else if(event.getSource()==selectMiceButton){
             
             if(mice == null){
                 System.out.println("Load a File First.");
+                /* Create a new stage for the SavePopUp */
+                errorStage=new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PopUpError.fxml"));
+                
+                /* */
+                root =(Parent) fxmlLoader.load();
+                
+                /* set the pop up scene to the design from root */
+                errorStage.setScene(new Scene(root));
+
+                FXMLDocumentController controller = fxmlLoader.getController(); 
+                
+                /* Passes currentFile from one controller to the other */
+                //controller.setFile(currentFile);
+                
+                /* Sets the label to the name of the file*/
+                controller.errorLabel.setText("No File Loaded.\nLoad File First Before Selecting Mice.");
+                
+                /* initializes pop up functionality */
+                errorStage.initModality(Modality.APPLICATION_MODAL);
+
+                /* sets the owner of the stage to the main window save button */
+                errorStage.initOwner(selectMiceButton.getScene().getWindow());
+                
+                /* Shows the pop up to the user and waits until they have closed
+                    it out */
+                errorStage.showAndWait();
             }else{
                 //System.out.println(mice[0]);
                 System.out.println("Select Mice");
@@ -359,13 +453,47 @@ public class FXMLDocumentController implements Initializable {
                         
                     }
                     
-                    selectedMice = tempSelected;
+                    if(tempSelected.length>8 && tempSelected[8] != null){
+                          /* Create a new stage for the SavePopUp */
+                            errorStage=new Stage();
+                            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PopUpError.fxml"));
+
+                             try {
+                            /* */
+                            root =(Parent) fxmlLoader.load();
+                        } catch (IOException ex) {
+                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                            /* set the pop up scene to the design from root */
+                            errorStage.setScene(new Scene(root));
+
+                            FXMLDocumentController controller = fxmlLoader.getController(); 
+
+                            /* Passes currentFile from one controller to the other */
+                            //controller.setFile(currentFile);
+
+                            /* Sets the label to the name of the file*/
+                            controller.errorLabel.setText("You can only select up to 8 mice.");
+
+                            /* initializes pop up functionality */
+                            errorStage.initModality(Modality.APPLICATION_MODAL);
+
+                            /* sets the owner of the stage to the main window save button */
+                            errorStage.initOwner(saveButton.getScene().getWindow());
+
+                            /* Shows the pop up to the user and waits until they have closed
+                                it out */
+                            errorStage.showAndWait();
+                    }else{
+                        selectedMice = tempSelected;
                     
-                    for(int y = 0; y< selectedMice.length; y++){
-                        System.out.println(selectedMice[y]);
+                        for(int y = 0; y< selectedMice.length; y++){
+                            System.out.println(selectedMice[y]);
+                        }
+                    
+                        miceStage.close();
                     }
-                    
-                    miceStage.close();
                 });
                 
                 cBtn.setOnAction((ActionEvent e) -> {
@@ -389,11 +517,41 @@ public class FXMLDocumentController implements Initializable {
         else if(event.getSource()==generateButton){
             System.out.println("Generating Map!!!!");
             
-            
-            
-            WebEngine webEngine = myWebView.getEngine();
-            webEngine.load("https://umw.edu");
-            
+            if(currentFile == null){
+            /* Create a new stage for the SavePopUp */
+                errorStage=new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PopUpError.fxml"));
+                
+                /* */
+                root =(Parent) fxmlLoader.load();
+                
+                /* set the pop up scene to the design from root */
+                errorStage.setScene(new Scene(root));
+
+                FXMLDocumentController controller = fxmlLoader.getController(); 
+                
+                /* Passes currentFile from one controller to the other */
+                //controller.setFile(currentFile);
+                
+                /* Sets the label to the name of the file*/
+                controller.errorLabel.setText("No File Loaded.\nLoad File First Before Saving.");
+                
+                /* initializes pop up functionality */
+                errorStage.initModality(Modality.APPLICATION_MODAL);
+
+                /* sets the owner of the stage to the main window save button */
+                errorStage.initOwner(saveButton.getScene().getWindow());
+                
+                /* Shows the pop up to the user and waits until they have closed
+                    it out */
+                errorStage.showAndWait();
+            }else{
+                System.out.println("Start Time: " + startTime);
+                System.out.println("End Time: " + endTime);
+                
+                WebEngine webEngine = myWebView.getEngine();
+                webEngine.load("https://umw.edu");
+            }
         }
         
         else if(event.getSource()==saveMapButton){
@@ -482,10 +640,20 @@ public class FXMLDocumentController implements Initializable {
         
         p.parse(currentFile.getAbsolutePath());
         mice = p.getMice();
-        System.out.println(mice);
+        //System.out.println(mice);
         
+        /* Auto Select All Mice */
+        selectedMice = mice;
+      
+        // This is where Evan works his magic
         String[] tempTimestamps = {"2", "3", "4", "5"};
         timestamps = tempTimestamps;
+        
+        startTimeBox.getSelectionModel().selectFirst();
+        
+        endTimeBox.getSelectionModel().selectLast();
+        
+        setStartBoxTimes();
         
         //List<String> timestampsList = new ArrayList<String>(Arrays.asList(timestamps));
         
@@ -510,6 +678,68 @@ public class FXMLDocumentController implements Initializable {
         //}
         //check to see if a file was loaded properly
 }
+    
+    private void setStartBoxTimes(){
+        List<String> l = new ArrayList<>();
+        for(int i = 0; i < timestamps.length; i++){
+            l.add(timestamps[i]);
+        }
+        ObservableList obList = FXCollections.observableList(l);
+       
+        startTimeBox.setItems(obList); 
+        //startTimeBox.setEditable(true); /* Allows the user to type into the
+        //Combo Box */
+        
+        startTimeBox.getSelectionModel().selectFirst();
+        
+        startTime = Integer.parseInt(startTimeBox.getSelectionModel().getSelectedItem().toString());
+        
+        setEndBoxTimes(obList.indexOf(startTimeBox.getSelectionModel().getSelectedItem()));
+        
+        endTimeBox.getSelectionModel().selectLast();
+        
+        endTime = Integer.parseInt(endTimeBox.getSelectionModel().getSelectedItem().toString());
+        
+        startTimeBox.setOnAction((event)->{
+            
+            //System.out.println("Index "+obList.indexOf(startTimeBox.getSelectionModel().getSelectedItem()));
+            //System.out.println(startTimeBox.getSelectionModel().getSelectedItem().toString());
+        
+            startTime = Integer.parseInt(startTimeBox.getSelectionModel().getSelectedItem().toString());
+            
+            
+            //if(endTimeBox.getItems().isEmpty()){
+                setEndBoxTimes(obList.indexOf(startTimeBox.getSelectionModel().getSelectedItem()));
+            //}//System.out.println(startTime+10);
+        });
+        
+    }
+    private void setEndBoxTimes(int index){
+        endTimeBox.getItems().clear();
+        endTimeBox.getSelectionModel().clearSelection();
+        //endTimeBox.setEditable(true);
+        
+        List<String> l = new ArrayList<>();
+        
+        for(int i = index; i < timestamps.length; i++){
+            l.add(timestamps[i]);
+        }
+        ObservableList obList = FXCollections.observableList(l);
+       
+        endTimeBox.setItems(obList); 
+    
+        endTimeBox.setOnAction((event)->{
+            
+            //System.out.println("endIndex "+obList.indexOf(endTimeBox.getSelectionModel().getSelectedItem()));
+            //System.out.println(endTimeBox.getSelectionModel().getSelectedItem().toString());
+        
+            endTime = Integer.parseInt(endTimeBox.getSelectionModel().getSelectedItem().toString());
+            //System.out.println(endTime+10);
+        });
+        
+    }    
+    
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
