@@ -489,7 +489,11 @@ public class FXMLDocumentController implements Initializable {
         
         //List<String> timestampsList = new ArrayList<String>(Arrays.asList(timestamps));
         
-        //startTimeBox.
+        //ObservableList<Stavka> oListStavaka = FXCollections.observableArrayList(listStavaka);
+        
+        //ObservableList
+        
+        //startTimeBox.setItems(oList);
         
         
         /* Gives the file path to the parser
