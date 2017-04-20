@@ -5,6 +5,7 @@
  */
 package javafxapplication2;
 
+import com.sun.glass.ui.Robot;
 import com.sun.javafx.scene.control.skin.ComboBoxListViewSkin;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
@@ -128,11 +129,11 @@ public class AutoCompleteComboBoxListener implements EventHandler<KeyEvent> {
             comboBox.getEditor().end();
         }
         
-        //if (!inFocus && comboBox.getEditor().getText() != null && comboBox.getEditor().getText().trim().length() > 0) {
+        if (!inFocus && comboBox.getEditor().getText() != null && comboBox.getEditor().getText().trim().length() > 0) {
             // press enter key programmatically to have this entry added
-        //    KeyEvent ke = KeyEvent.impl_keyEvent(comboBox, KeyCode.ENTER.toString(), KeyCode.ENTER.getName(), KeyCode.ENTER.impl_getCode(), false, false, false, false, KeyEvent.KEY_RELEASED);
-        //    comboBox.fireEvent(ke);
-        //}
+            Robot robot = com.sun.glass.ui.Application.GetApplication().createRobot();
+            robot.keyPress(java.awt.event.KeyEvent.VK_ENTER);
+        }
     }
     
 }
