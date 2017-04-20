@@ -3,7 +3,7 @@ from json import *
 
 values = [0]*25
 for entry in data:
-    if (entry[3] not in mice):
+    if (entry[2] not in mice):
             data.remove(entry)
     #Unicode strings are the death of me
     RFID = int((re.sub(r"[^a-zA-Z0-9\.]", "", entry[3]))[4:])

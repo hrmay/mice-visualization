@@ -1,1 +1,5 @@
 10.10; C:\Users\Evan\Documents\CPSC\CPSC430\mice-visualization\test data\Sample-16.10.10.csv
+09.08; C:\Users\Evan\Documents\CPSC\CPSC430\mice-visualization\test data\Sample-16.09.08.csv
+09.22; C:\Users\Evan\Documents\CPSC\CPSC430\mice-visualization\test data\Sample-16.09.22.csv
+11.01; C:\Users\Evan\Documents\CPSC\CPSC430\mice-visualization\test data\Sample-16.11.01.csv
+test1; C:\Users\Evan\Documents\CPSC\CPSC430\mice-visualization\test data\test1.csv
