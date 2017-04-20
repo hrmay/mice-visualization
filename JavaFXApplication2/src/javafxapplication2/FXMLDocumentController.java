@@ -564,9 +564,20 @@ public class FXMLDocumentController implements Initializable {
         selectedMice = mice;
       
         // This is where Evan works his magic
-        String[] tempTimestamps = {"2", "3", "4", "5"};
+        String[] tempTimestamps = {"2345", "26 78", "2666", "3456", "345 89", "4567", "4777", "5678", "5555"};
         timestamps = tempTimestamps;
         
+        setStartBoxTimes();
+        
+        AutoCompleteComboBoxListener startTimeListener;
+        startTimeListener = new AutoCompleteComboBoxListener(startTimeBox);
+        
+        endTimeBox.getSelectionModel().selectLast();
+        
+        AutoCompleteComboBoxListener endTimeListener;
+        endTimeListener = new AutoCompleteComboBoxListener(endTimeBox);
+        
+
         setStartBoxTimes();
         
         //List<String> timestampsList = new ArrayList<String>(Arrays.asList(timestamps));
@@ -597,6 +608,16 @@ public class FXMLDocumentController implements Initializable {
        
         startTimeBox.setItems(obList); 
     
+        startTimeBox.getSelectionModel().selectFirst();
+        
+        startTime = Integer.parseInt(startTimeBox.getSelectionModel().getSelectedItem().toString());
+        
+        setEndBoxTimes(obList.indexOf(startTimeBox.getSelectionModel().getSelectedItem()));
+        
+        endTimeBox.getSelectionModel().selectLast();
+        
+        endTime = Integer.parseInt(endTimeBox.getSelectionModel().getSelectedItem().toString());
+        
         startTimeBox.setOnAction((event)->{
             
             //System.out.println("Index "+obList.indexOf(startTimeBox.getSelectionModel().getSelectedItem()));
