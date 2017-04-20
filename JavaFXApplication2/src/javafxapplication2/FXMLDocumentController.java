@@ -421,7 +421,7 @@ public class FXMLDocumentController implements Initializable {
             
             if(currentFile == null){
                 
-                alertPopUp("No File Loaded.\nLoad File First Before Saving.");
+                alertPopUp("No File Loaded.\nLoad File First Before you can generate a map.");
                 
             }
             else if(selectedMice[0] == null){
