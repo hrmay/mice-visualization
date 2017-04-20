@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,11 +48,13 @@ import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import org.python.core.PyObject;
 import org.json.simple.*;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -159,7 +162,7 @@ public class FXMLDocumentController implements Initializable {
     
     /* Handles the functionality of buttons on the main app window */
     @FXML
-    private void handleButtonAction(ActionEvent event) throws IOException, ScriptException {
+    private void handleButtonAction(ActionEvent event) throws IOException, ScriptException, ParseException, NoSuchMethodException {
        
         /* If the "Load" button on the main window was pressed */
         if(event.getSource()==loadButton){
@@ -427,7 +430,7 @@ public class FXMLDocumentController implements Initializable {
         }
         
         else if(event.getSource()==generateButton){
-            PyObject heatmapData = new PyObject();
+            JSONObject heatmapData = new JSONObject();
             
             if(currentFile == null){
                 
@@ -449,18 +452,30 @@ public class FXMLDocumentController implements Initializable {
                 
                 Parser p = new Parser();
 
-                heatmapData = p.filter(semiParsedData, selectedMice);
+                //heatmapData = p.filter(semiParsedData, selectedMice);
                 
-                System.out.println(heatmapData);
+                String heatmapString = p.filter(semiParsedData, selectedMice);
+                
+                System.out.println(heatmapString);
+                
+                
+                File js = new File("plot.js");
+                if (js.exists()) {
+                    js.delete();
+                }
+                PrintWriter out = new PrintWriter(js);
+                out.println("var data = [" + heatmapString + "];\n" + "\n" + "heatmap = document.getElementById('heatmap');\n" + "Plotly.plot(heatmap, data );");
+                out.close();
             
-                ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
-                //engine.eval("load('src/javafxapplication2/js/plot.js')");
+                //ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+                
 
                 File map = new File("./src/javafxapplication2/html/map.html");
                 System.out.println("testing");
                 //webEngine.load(file.toURI().toURL().toString());
                 myWebView.getEngine().load(map.toURI().toURL().toString());
-                System.out.println("done testing");
+                
+                //js.delete();
             }
         }
         

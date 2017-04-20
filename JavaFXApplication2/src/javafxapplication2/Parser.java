@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.json.simple.*;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 
 /**
@@ -44,7 +46,7 @@ public class Parser {
         return pyData;
     }
     
-    public PyObject filter(PyObject data, String[] mice) {
+    public String filter(PyObject data, String[] mice) throws ParseException {
         //Open python interpeter
         PythonInterpreter interp = new PythonInterpreter();
         //Set variables needed by the filter
@@ -55,6 +57,9 @@ public class Parser {
         interp.execfile("./src/javafxapplication2/python/filter.py");
         
         PyObject pyData = interp.get("heatmapData");
+        
+        String heatString = (String) pyData.__tojava__(String.class);
+
         /*
         PyObject[] heatData = (PyObject[]) pyData.__tojava__(PyObject[].class);
         int[] heatmapData = new int[4];
@@ -66,8 +71,9 @@ public class Parser {
             
         }
         */
-        
-        return pyData;
+        //JSONParser jsonParser = new JSONParser();
+        //JSONObject heatData = (JSONObject) jsonParser.parse(heatString);
+        return heatString;
     }
     
     public String[] getMice() {
