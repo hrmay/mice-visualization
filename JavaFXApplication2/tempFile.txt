@@ -2,5 +2,3 @@ Test1; C:\Users\Nate\Desktop\Sample-16.11.01.csv
 Test2; C:\Users\Nate\Desktop\Sample-16.11.01.csv
 Test3; C:\Users\Nate\Desktop\Sample-16.11.01.csv
 T; C:\Users\Nate\Desktop\Sample-16.11.01.csv
-halloworld; C:\Users\Nate\Desktop\Sample-16.11.01.csv
-Quick!; C:\Users\Nate\Desktop\Sample-16.10.10.csv
