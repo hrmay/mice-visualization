@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="JavaFXApplication2.jar" size="666037" download="eager" />
+    <jar href="JavaFXApplication2.jar" size="670581" download="eager" />
     <jar href="lib\json-simple-1.1.1.jar" size="23737" download="eager" />
     <jar href="lib\jython-standalone-2.7.0.jar" size="37021723" download="eager" />
     <jar href="lib\rhino-1.7.7.1.jar" size="1201894" download="eager" />
