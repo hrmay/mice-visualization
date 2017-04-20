@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This class was taken from:
+ * http://tech.chitgoks.com/2013/08/20/how-to-create-autocomplete-combobox-or-textfield-in-java-fx-2/
  */
 package javafxapplication2;
 
@@ -20,7 +19,7 @@ import javafx.scene.input.MouseEvent;
 
 /**
  *
- * @author Cole
+ * @author Blogmeister from tech.chitgoks.com
  */
 public class AutoCompleteComboBoxListener implements EventHandler<KeyEvent> {
 
