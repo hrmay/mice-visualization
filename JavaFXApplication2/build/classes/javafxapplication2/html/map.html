@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="../js/plotly-latest.min.js"></script>
+	</head>
+	<body>
+		<div id="heatmap" style="width:590px;height:490px;"></div>
+		
+		<script>
+			var data = [
+			  {
+				z: [[1, 20, 30], [20, 1, 60], [30, 60, 1]],
+				type: 'heatmap'
+			  }
+			];
+		
+			heatmap = document.getElementById('heatmap');
+			Plotly.plot(heatmap, data );
+		</script>
+	</body>
+</html>

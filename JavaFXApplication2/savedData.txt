@@ -3,3 +3,4 @@ Test2; C:\Users\Nate\Desktop\Sample-16.11.01.csv
 Test3; C:\Users\Nate\Desktop\Sample-16.11.01.csv
 T; C:\Users\Nate\Desktop\Sample-16.11.01.csv
 halloworld; C:\Users\Nate\Desktop\Sample-16.11.01.csv
+10.10; C:\Users\Evan\Documents\CPSC\CPSC430\mice-visualization\test data\Sample-16.10.10.csv

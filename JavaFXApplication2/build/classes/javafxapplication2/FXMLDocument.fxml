@@ -33,18 +33,6 @@
             </AnchorPane>
          </top>
          <bottom>
-<<<<<<< HEAD
-            <AnchorPane prefHeight="67.0" prefWidth="800.0" style="-fx-background-color: steelblue;" BorderPane.alignment="CENTER" />
-         </bottom>
-         <left>
-            <AnchorPane prefHeight="492.0" prefWidth="100.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER" />
-         </left>
-         <right>
-            <AnchorPane prefHeight="492.0" prefWidth="100.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER" />
-         </right>
-         <center>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="260.0" prefWidth="272.0" style="-fx-background-color: blue;" BorderPane.alignment="CENTER" />
-=======
             <AnchorPane prefHeight="39.0" prefWidth="800.0" style="-fx-background-color: steelblue;" BorderPane.alignment="CENTER" />
          </bottom>
          <left>
@@ -58,7 +46,6 @@
                <children>
                   <WebView fx:id="myWebView" layoutX="200.0" layoutY="106.0" prefHeight="492.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children></AnchorPane>
->>>>>>> origin/master
          </center>
       </BorderPane>
     </children>

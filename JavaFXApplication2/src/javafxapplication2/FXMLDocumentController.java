@@ -32,14 +32,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import static javafx.scene.input.KeyCode.R;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import org.python.core.PyObject;
+import org.json.simple.*;
 
 /**
  *
@@ -99,6 +106,8 @@ public class FXMLDocumentController implements Initializable {
     private String[] selectedMice = null; /* An array of Strings containing
     the names of each of the mice that have been selected */
     
+    private PyObject semiParsedData; //holds the semi-parsed data
+    
     /* The SavePopUp window */
     Stage saveStage;
     
@@ -111,7 +120,7 @@ public class FXMLDocumentController implements Initializable {
                               new file */
 
     @FXML
-    WebView myWebView;
+    private WebView myWebView;
     
     /* Sets the currentFile from the Main window controller to the currentFile 
         in the SaveWindow controller */
@@ -121,7 +130,7 @@ public class FXMLDocumentController implements Initializable {
     
     /* Handles the functionality of buttons on the main app window */
     @FXML
-    private void handleButtonAction(ActionEvent event) throws IOException {
+    private void handleButtonAction(ActionEvent event) throws IOException, ScriptException {
        
         /* If the "Load" button on the main window was pressed */
         if(event.getSource()==loadButton){
@@ -361,19 +370,29 @@ public class FXMLDocumentController implements Initializable {
         }
         
         else if(event.getSource()==generateButton){
-            System.out.println("Generating Map!!!!");
+            PyObject heatmapData = new PyObject();
             
+            if (currentFile.exists()) {
+                Parser p = new Parser();
+
+                heatmapData = p.filter(semiParsedData, selectedMice);
+            }
             
+            System.out.println(heatmapData);
+            
+            ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+            //engine.eval("load('src/javafxapplication2/js/plot.js')");
+                       
+            File map = new File("./src/javafxapplication2/html/map.html");
+            System.out.println("testing");
+            //webEngine.load(file.toURI().toURL().toString());
+            myWebView.getEngine().load(map.toURI().toURL().toString());
+            System.out.println("done testing");
         }
         
         else if(event.getSource()==saveMapButton){
             System.out.println("Save Map");
         }
-        /*else{
-            System.out.println("....");
-        
-        }*/
-    //    label.setText("Hello World!");
     }
     
     /* Opens the SavePopUp Window and handles all events that occur in that 
@@ -443,16 +462,16 @@ public class FXMLDocumentController implements Initializable {
         
         //String[] tempMice = {"Mouse 1","Mouse 2", "Mouse 3", "Omega Mouse"};
         
-        
-        
-        
         /* Gets the file path of the file */
         String dataPath = file.getPath();
         Parser p = new Parser();
         
-        p.parse(currentFile.getAbsolutePath());
+        semiParsedData = p.parse(currentFile.getAbsolutePath());
         mice = p.getMice();
         System.out.println(mice);
+        
+        /* Auto Select All Mice */
+        selectedMice = mice;
         /* Gives the file path to the parser
             Parses the data
             Stores the parsed data into a array of strings */
