@@ -433,26 +433,6 @@ public class FXMLDocumentController implements Initializable {
                 
                 alertPopUp("No File Loaded.\nLoad File First Before you can generate a map.");
                 
-                /* set the pop up scene to the design from root */
-                errorStage.setScene(new Scene(root));
-
-                FXMLDocumentController controller = fxmlLoader.getController(); 
-                
-                /* Passes currentFile from one controller to the other */
-                //controller.setFile(currentFile);
-                
-                /* Sets the label to the name of the file*/
-                controller.errorLabel.setText("No File Loaded.\nLoad File First Before Saving.");
-                
-                /* initializes pop up functionality */
-                errorStage.initModality(Modality.APPLICATION_MODAL);
-
-                /* sets the owner of the stage to the main window save button */
-                errorStage.initOwner(saveButton.getScene().getWindow());
-                
-                /* Shows the pop up to the user and waits until they have closed
-                    it out */
-                errorStage.showAndWait();
             }
             else if(selectedMice[0] == null){
                 alertPopUp("Please select at least one mouse.");
@@ -473,14 +453,14 @@ public class FXMLDocumentController implements Initializable {
                 
                 System.out.println(heatmapData);
             
-            ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
-            //engine.eval("load('src/javafxapplication2/js/plot.js')");
-                       
-            File map = new File("./src/javafxapplication2/html/map.html");
-            System.out.println("testing");
-            //webEngine.load(file.toURI().toURL().toString());
-            myWebView.getEngine().load(map.toURI().toURL().toString());
-            System.out.println("done testing");
+                ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+                //engine.eval("load('src/javafxapplication2/js/plot.js')");
+
+                File map = new File("./src/javafxapplication2/html/map.html");
+                System.out.println("testing");
+                //webEngine.load(file.toURI().toURL().toString());
+                myWebView.getEngine().load(map.toURI().toURL().toString());
+                System.out.println("done testing");
             }
         }
         

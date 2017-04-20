@@ -1,0 +1,1 @@
+10.10; C:\Users\Evan\Documents\CPSC\CPSC430\mice-visualization\test data\Sample-16.10.10.csv
